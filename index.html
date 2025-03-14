@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Splitter</title>
+</head>
+<body>
+    <h1>Divisor de Archivos</h1>
+
+    <input type="file" id="fileInput"><br><br>
+    <input type="number" id="segmentSize" placeholder="Tamaño del segmento en bytes"><br><br>
+    <button onclick="uploadFile()">Procesar</button>
+
+    <p id="status"></p>
+    <ul id="fileLinks"></ul>
+
+    <script>
+        function uploadFile() {
+            const file = document.getElementById('fileInput').files[0];
+            const segmentSize = document.getElementById('segmentSize').value;
+
+            if (!file || !segmentSize) {
+                alert("Debes seleccionar un archivo y definir el tamaño del segmento");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('segmentSize', segmentSize);
+
+            document.getElementById('status').innerText = 'Procesando archivo...';
+            document.getElementById('fileLinks').innerHTML = '';
+
+            fetch('http://localhost:8080/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(fileParts => {
+                document.getElementById('status').innerText = 'Archivo procesado. Descarga los segmentos:';
+                const linksList = document.getElementById('fileLinks');
+
+                fileParts.forEach(part => {
+                    const link = document.createElement('a');
+                    link.href = `http://localhost:8080/api/download/${part}`;
+                    link.innerText = part;
+                    link.download = part;
+
+                    const listItem = document.createElement('li');
+                    listItem.appendChild(link);
+                    linksList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('status').innerText = 'Error procesando el archivo';
+            });
+        }
+    </script>
+</body>
+</html>

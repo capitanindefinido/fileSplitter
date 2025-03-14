@@ -1,0 +1,41 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+/.idea/
+/*.iml
+/.classpath
+/.project
+/.settings/
+
+# Logs
+*.log
+logs/
+*.out
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Entornos y temporales
+/uploads/
+*.tmp
+*.bak
+*.swp
+
+# Archivos de configuración sensibles
+application.properties
+application.yml
+
+# Docker
+*.env
+docker-compose.override.yml
+
+# Java
+*.class
+
+# Otros
+node_modules/
+dist/
+build/

@@ -3,6 +3,7 @@ package com.example.filedivider.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,4 +44,36 @@ public class FileService {
 
         return fileParts;
     }
+
+    @Scheduled(fixedRate = 3600000) // Cada 1 hora (en milisegundos)
+    public void limpiarArchivosTemporales() {
+        File carpeta = new File("uploads");
+        if (!carpeta.exists()) {
+            System.out.println("La carpeta uploads no existe. Nada que limpiar.");
+            return;
+        }
+
+        File[] archivos = carpeta.listFiles();
+        if (archivos == null) {
+            System.out.println("No se encontraron archivos en la carpeta uploads.");
+            return;
+        }
+
+        int archivosEliminados = 0;
+
+        for (File archivo : archivos) {
+            if (archivo.isFile()) {
+                boolean eliminado = archivo.delete();
+                if (eliminado) {
+                    archivosEliminados++;
+                    System.out.println("Archivo eliminado: " + archivo.getName());
+                } else {
+                    System.out.println("No se pudo eliminar: " + archivo.getName());
+                }
+            }
+        }
+
+        System.out.println("Limpieza completada. Archivos eliminados: " + archivosEliminados);
+    }
+
 }

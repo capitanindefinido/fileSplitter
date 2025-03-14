@@ -48,7 +48,7 @@ Está orientada a facilitar el envío de archivos pesados, dividiéndolos en par
 ## Uso de la Aplicación
 
 1. Seleccionar un archivo a dividir desde el frontend.
-2. Definir el tamaño de los segmentos en MB (el sistema lo convierte automáticamente a bytes).
+2. Definir el tamaño de los segmentos en bytes.
 3. Pulsar el botón "Procesar" para iniciar la división.
 4. Descargar los segmentos generados desde los enlaces que aparecen luego del procesamiento.
 5. Enviar los segmentos por correo electrónico mediante el formulario correspondiente (próximamente en frontend, disponible vía API).
